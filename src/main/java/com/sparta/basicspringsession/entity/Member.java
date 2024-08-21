@@ -1,5 +1,6 @@
 package com.sparta.basicspringsession.entity;
 
+import com.sparta.basicspringsession.dto.MemberSaveRequestDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,4 +15,8 @@ public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public Member(String name) {
+        this.name = name;
+    }
 }
