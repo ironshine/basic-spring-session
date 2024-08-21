@@ -39,6 +39,13 @@ public class MemberService {
           // List<Member> -> List<MemberSimpleResponseDto>
         return memberSaveResponseDtos;
     }
+    // Repository -> entity -> ResponseDTO
+    public MemberSaveResponseDto getMemberId(Long id) {
+        Member newMember = memberRepository.findById(id).orElseThrow(() -> new NullPointerException("id없다")); // Repository -> entity
+        return new MemberSaveResponseDto(newMember.getName());
+//      MemberSaveResponseDto responseDto = new MemberSaveResponseDto(newMember.getName()); // entity -> ResponseDTO
+//      return responseDto;
+    }
 
     @Transactional // Repository -> entity -> entity RequestDTO 값받아서 수정 -> ResponseDTO
     public MemberUpdateResponseDto updateMember(MemberUpdateRequestDto memberUpdateRequestDto, Long id) {
@@ -47,7 +54,6 @@ public class MemberService {
         newMember.update(memberUpdateRequestDto.getName()); // entity RequestDTO 값받아서 수정
 
         return new MemberUpdateResponseDto(newMember.getId(), newMember.getName()); // entity -> ResponseDTO
-
     }
 
     @Transactional // Repository 에서 entity 찾고 Repository 에서 찾은 entity 삭제
