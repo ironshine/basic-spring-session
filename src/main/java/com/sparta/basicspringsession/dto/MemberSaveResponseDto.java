@@ -4,11 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class MemberSaveResponseDto {
-    Long id;
-    String name;
+    private final String name;
 
-    public MemberSaveResponseDto(Long id, String name) {
-        this.id = id;
+    public MemberSaveResponseDto(String name) {
         this.name = name;
     }
 }
