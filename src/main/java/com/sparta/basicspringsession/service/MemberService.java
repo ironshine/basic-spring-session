@@ -40,7 +40,7 @@ public class MemberService {
         return memberSaveResponseDtos;
     }
 
-    @Transactional
+    @Transactional // Repository -> entity -> entity RequestDTO 값받아서 수정 -> ResponseDTO
     public MemberUpdateResponseDto updateMember(MemberUpdateRequestDto memberUpdateRequestDto, Long id) {
         Member newMember = memberRepository.findById(id).orElseThrow(() -> new NullPointerException("id없다")); // Repository -> entity ?
 
@@ -48,5 +48,10 @@ public class MemberService {
 
         return new MemberUpdateResponseDto(newMember.getId(), newMember.getName()); // entity -> ResponseDTO
 
+    }
+
+    @Transactional // Repository 에서 entity 찾고 Repository 에서 찾은 entity 삭제
+    public void deleteMember(Long id) {
+        memberRepository.delete(memberRepository.findById(id).orElseThrow(() -> new NullPointerException("id없다")));
     }
 }
