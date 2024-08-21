@@ -1,8 +1,6 @@
 package com.sparta.basicspringsession.service;
 
-import com.sparta.basicspringsession.dto.MemberSaveRequestDto;
-import com.sparta.basicspringsession.dto.MemberSaveResponseDto;
-import com.sparta.basicspringsession.dto.MemberSimpleResponseDto;
+import com.sparta.basicspringsession.dto.*;
 import com.sparta.basicspringsession.entity.Member;
 import com.sparta.basicspringsession.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +28,7 @@ public class MemberService {
 
     // Repository -> List<Member> -> List<MemberSimpleResponseDto>
     // Repository -> List<entity> -> List<Response DTO> ?
-    // R은 @Transactional 안붙임
+    // CRUD중 R은 @Transactional 안붙임
     public List<MemberSimpleResponseDto> getMemberList() {
         List<Member> newMemberList = memberRepository.findAll(); // Repository -> List<Member> ?
 
@@ -40,5 +38,15 @@ public class MemberService {
         } // newMemberList -> memberSaveResponseDtos
           // List<Member> -> List<MemberSimpleResponseDto>
         return memberSaveResponseDtos;
+    }
+
+    @Transactional
+    public MemberUpdateResponseDto updateMember(MemberUpdateRequestDto memberUpdateRequestDto, Long id) {
+        Member newMember = memberRepository.findById(id).orElseThrow(() -> new NullPointerException("id없다")); // Repository -> entity ?
+
+        newMember.update(memberUpdateRequestDto.getName()); // entity RequestDTO 값받아서 수정
+
+        return new MemberUpdateResponseDto(newMember.getId(), newMember.getName()); // entity -> ResponseDTO
+
     }
 }
